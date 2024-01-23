@@ -12,7 +12,7 @@ namespace GGJFUK
         Idle,
         Walk,
         Talk,
-        Joke,
+        Win,
         Rare,
         Fall,
         Length
@@ -74,21 +74,33 @@ namespace GGJFUK
             }
             else
             {
-                StartLaugh();
+                GameManager.Instance.EndStage();
             }
         }
 
         void StartTalking()
         {
+            GameManager.Instance.rhythmGame.StartGame();
+
+            GameManager.Instance.uIManager.laughSlider.gameObject.SetActive(true);
+
             comedianState = ComedianState.Talk;
             SetAnimation();
 
-            GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.talkingAudio);
+            GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.talkingAudio, 1f, true);
 
-            Invoke("StopTalking", 10.0f);
+            //Invoke("StopTalking", 10.0f);
         }
 
-        void StopTalking()
+        public void StartWin()
+        {
+            comedianState = ComedianState.Win;
+            SetAnimation();
+
+            Invoke("StopWin", 3.0f);
+        }
+
+        void StopWin()
         {
             comedianState = ComedianState.Rare;
             SetAnimation();
@@ -118,23 +130,6 @@ namespace GGJFUK
             move.Start();
 
             GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.fallAudio);
-        }
-        
-        void StartLaugh()
-        {
-            GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.laughAudio);
-            GameManager.Instance.SetAudienceAnimation(2);
-
-            Invoke("StopLaugh", 3.0f);
-        }
-
-        void StopLaugh()
-        {
-            GameManager.Instance.audioManager.StopAll();
-
-            GameManager.Instance.SetAudienceAnimation(0);
-
-            GameManager.Instance.CloseGates();
         }
 
         void SetAnimation()

@@ -16,6 +16,8 @@ namespace GGJFUK
         public AudioClip tissAudio;
         public AudioClip dinkAudio;
         public AudioClip fallAudio;
+        public AudioClip correctAudio;
+        public AudioClip missAudio;
 
         void Awake()
         {
@@ -40,10 +42,10 @@ namespace GGJFUK
 
         void Start()
         {
-            PlayMusic(gameAudio);
+            PlayMusic(gameAudio, 0.4f);
         }
 
-        public void PlayAudio(AudioClip audioClip, float volume = 1.0f)
+        public void PlayAudio(AudioClip audioClip, float volume = 1.0f, bool loop = false)
         {
             if (audioClip)
             {
@@ -53,6 +55,7 @@ namespace GGJFUK
                     {
                         audioSources[i].Stop();
                         audioSources[i].volume = volume;
+                        audioSources[i].loop = loop;
                         audioSources[i].PlayOneShot(audioClip);
 
                         break;
