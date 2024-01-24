@@ -18,6 +18,7 @@ namespace GGJFUK
         public AudioClip fallAudio;
         public AudioClip correctAudio;
         public AudioClip missAudio;
+        public AudioClip gameOverAudio;
 
         void Awake()
         {
@@ -45,7 +46,7 @@ namespace GGJFUK
             PlayMusic(gameAudio, 0.4f);
         }
 
-        public void PlayAudio(AudioClip audioClip, float volume = 1.0f, bool loop = false)
+        public void PlayAudio(AudioClip audioClip, float volume = 1.0f)
         {
             if (audioClip)
             {
@@ -55,8 +56,27 @@ namespace GGJFUK
                     {
                         audioSources[i].Stop();
                         audioSources[i].volume = volume;
-                        audioSources[i].loop = loop;
                         audioSources[i].PlayOneShot(audioClip);
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void PlayLoopAudio(AudioClip audioClip, float volume = 1.0f)
+        {
+            if (audioClip)
+            {
+                for (int i = 1; i < audioSources.Length; i++)
+                {
+                    if (!audioSources[i].isPlaying)
+                    {
+                        audioSources[i].Stop();
+                        audioSources[i].volume = volume;
+                        audioSources[i].loop = true;
+                        audioSources[i].clip = audioClip;
+                        audioSources[i].Play();
 
                         break;
                     }
@@ -73,6 +93,14 @@ namespace GGJFUK
                 audioSources[0].clip = audioClip;
                 audioSources[0].volume = volume;
                 audioSources[0].Play();
+            }
+        }
+
+        public void StopMusic()
+        {
+            if (audioSources[0])
+            {
+                audioSources[0].Stop();
             }
         }
 

@@ -16,6 +16,10 @@ namespace GGJFUK
 
         public GameObject[] crossImages;
 
+        public GameObject gameover;
+        public TextMeshProUGUI endScoreText;
+        public TextMeshProUGUI bestScoreText;
+
         public void UpdateScore()
         {
             scoreText.text = "SCORE: " + GameManager.Instance.score;
@@ -43,6 +47,38 @@ namespace GGJFUK
                 {
                     crossImages[i].SetActive(true);
                 }
+            }
+        }
+
+        public void ShowGameOver()
+        {
+            // Hide All
+            scoreText.gameObject.SetActive(false);
+            laughSlider.gameObject.SetActive(false);
+            GameManager.Instance.rhythmGame.gameObject.SetActive(false);
+
+            Time.timeScale = 0f;
+
+            gameover.SetActive(true);
+
+            int score = GameManager.Instance.score;
+
+            endScoreText.text = "SCORE: " + score;
+
+            int bestScore = PlayerPrefs.GetInt("BEST_SCORE", 0);
+
+            Debug.Log("GAME OVER: " + score + " " + bestScore);
+
+            if(score >= bestScore)
+            {
+                bestScoreText.text = "BEST SCORE !";
+
+                PlayerPrefs.SetInt("BEST_SCORE", score);
+                PlayerPrefs.Save();
+            }
+            else
+            {
+                bestScoreText.text = "BEST SCORE: " + bestScore;
             }
         }
     }

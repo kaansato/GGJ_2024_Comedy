@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GGJFUK
 {
@@ -13,7 +14,8 @@ namespace GGJFUK
 
         public int laugh = 0;
         public int maxLaugh = 100;
-        public int laughForJoke = 20;
+
+        public int stage = 0;
 
         public UIManager uIManager;
         public AudioManager audioManager;
@@ -32,6 +34,8 @@ namespace GGJFUK
 
         void Start()
         {
+            Time.timeScale = 1f;
+
             Invoke("SpawnComedian", 3.0f);
         }
 
@@ -81,10 +85,32 @@ namespace GGJFUK
         {
             CloseGates();
 
-            rhythmGame.moveTime -= 0.5f;
+            stage++;
+
+            if(stage % 2 == 0)
+            {
+                rhythmGame.minSpawnInterval = 0.5f;
+                rhythmGame.maxSpawnInterval -= 0.5f;
+
+                if(rhythmGame.maxSpawnInterval < 1f)
+                {
+                    rhythmGame.maxSpawnInterval = 1f;
+                }
+            }
+            else
+            {
+                rhythmGame.moveTime -= 0.5f;
+
+                if(rhythmGame.moveTime < 1f)
+                {
+                    rhythmGame.moveTime = 1f;
+                }
+            }
+
+            maxLaugh += 10;
 
             comedianIndex++;
-            if (comedianIndex > 3)
+            if (comedianIndex >= comedians.Length)
                 comedianIndex = 0;
 
             Invoke("SpawnComedian", 1.0f);
@@ -116,9 +142,26 @@ namespace GGJFUK
             if(missCount == maxMissCount)
             {
                 Debug.Log("GAME OVER !");
+
+                rhythmGame.StopGame();
+
+
+
+                Invoke("GameOver", 2f);
             }
 
             uIManager.ShowMissCount();
+        }
+
+        void GameOver()
+        {
+            audioManager.StopAll();
+
+            audioManager.StopMusic();
+
+            audioManager.PlayAudio(audioManager.gameOverAudio);
+
+            GameManager.Instance.uIManager.ShowGameOver();
         }
 
         public bool CheckLaugh()
@@ -130,8 +173,13 @@ namespace GGJFUK
 
                 uIManager.laughSlider.gameObject.SetActive(false);
 
+                /*
                 rhythmGame.StopGame();
                 rhythmGame.gameObject.SetActive(false);
+                */
+
+                rhythmGame.StopGame();
+                Invoke("DoLater", 1.0f);
 
                 StartLaugh();
 
@@ -143,9 +191,15 @@ namespace GGJFUK
             return false;
         }
 
-        void Update()
+        void DoLater()
         {
+            rhythmGame.gameObject.SetActive(false);
+        }
 
+        public void Restart()
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex);
         }
     }
 }

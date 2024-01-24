@@ -17,10 +17,16 @@ namespace GGJFUK
         Length
     }
 
+    public enum JokeType
+    {
+        Perfect,
+        Good,
+        Ok,
+        Length
+    }
+
     public class DrumNote : MonoBehaviour
     {
-        public int pointForJoke = 100;
-
         public GameObject[] noteImages;
 
         public KeyCode[] keys;
@@ -37,6 +43,11 @@ namespace GGJFUK
 
         NoteType noteType;
 
+        float distance;
+        float lastScale;
+
+        Move move = null;
+
         void Update()
         {
 
@@ -44,13 +55,19 @@ namespace GGJFUK
 
         public void InitNote(RhythmGame rhythmGame)
         {
+            Debug.Log("DrumNote InitNote");
+
             this.rhythmGame = rhythmGame;
+
+            lastScale = transform.localScale.x;
+
+            transform.localScale = Vector3.one;
 
             int randomValue = Random.Range(0, 4);
 
             noteType = (NoteType)randomValue;
 
-            foreach (GameObject ni in noteImages) 
+            foreach (GameObject ni in noteImages)
             {
                 ni.SetActive(false);
             }
@@ -64,7 +81,7 @@ namespace GGJFUK
 
         public void MoveNote()
         {
-            Move move = new Move(this.gameObject, rhythmGame.noteStartPosition, rhythmGame.noteEndPosition, 0, rhythmGame.moveTime,
+            move = new Move(this.gameObject, rhythmGame.noteStartPosition, rhythmGame.noteEndPosition, 0, rhythmGame.moveTime,
                     tweenType: TransitionHelper.TweenType.linear, coordinateSpace: TransitionStep.CoordinateSpaceType.AnchoredPosition, onStart: LogStart, onUpdate: LogUpdate, onComplete: LogComplete);
 
             move.Start();
@@ -85,14 +102,21 @@ namespace GGJFUK
 
                 GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.missAudio);
 
+                foreach (GameObject ni in noteImages)
+                {
+                    ni.SetActive(false);
+                }
+
                 missImage.SetActive(true);
 
                 GameManager.Instance.IncreaseMissCount();
+
+                // Reset Laugh Bar
+                GameManager.Instance.laugh = 0;
+                GameManager.Instance.uIManager.UpdateLaughBar();
             }
 
             isOverlaping = IsOverlap();
-
-
 
             //Debug.Log("IsOverlap: " + isOverlaping);
         }
@@ -114,12 +138,18 @@ namespace GGJFUK
             Rect rect1Rect = new Rect(rectTransform.position, rectTransform.sizeDelta);
             Rect rect2Rect = new Rect(rhythmGame.targetRectTransform.position, rhythmGame.targetRectTransform.sizeDelta);
 
+            distance = Vector3.Distance(rectTransform.position, rhythmGame.targetRectTransform.position) * lastScale;
+
             /*
-            float distance = Vector3.Distance(rectTransform.position, rhythmGame.targetRectTransform.position);
-            Debug.Log("Distance: " + distance);
+            if (rect1Rect.Overlaps(rect2Rect))
+            {
+                Debug.Log("distance: " + distance + " " + rhythmGame.targetRectTransform.sizeDelta.x + " " + lastScale);
+            }
             */
 
-            return rect1Rect.Overlaps(rect2Rect);
+            //return rect1Rect.Overlaps(rect2Rect);
+
+            return (distance < rhythmGame.targetRectTransform.sizeDelta.x);
         }
 
         public void DestroyNote()
@@ -127,6 +157,48 @@ namespace GGJFUK
             rhythmGame.drumNotes.Remove(this);
 
             Destroy(this.gameObject);
+        }
+
+        public JokeType GetJokeType()
+        {
+            Debug.Log("GetPointForJoke: " + distance);
+
+            if (distance <= 5)
+            {
+                return JokeType.Perfect;
+            }
+            else if (distance <= 30)
+            {
+                return JokeType.Good;
+            }
+            else
+            {
+                return JokeType.Ok;
+            }
+        }
+
+        public void Stop()
+        {
+            move.Stop();
+            move = null;
+        }
+
+        public void Shrink()
+        {
+            Vector3 startPosition = GetComponent<RectTransform>().anchoredPosition;
+            Vector3 endPosition = rhythmGame.targetRectTransform.anchoredPosition;
+
+            Stop();
+
+            move = new Move(this.gameObject, startPosition, endPosition, 0, 0.2f,
+                    tweenType: TransitionHelper.TweenType.linear, coordinateSpace: TransitionStep.CoordinateSpaceType.AnchoredPosition);
+
+            move.Start();
+
+            Scale scale = new Scale(this.gameObject, Vector3.one, Vector3.zero, 0, 0.2f,
+                tweenType: TransitionHelper.TweenType.linear, onComplete: DestroyNote);
+
+            scale.Start();
         }
     }
 }

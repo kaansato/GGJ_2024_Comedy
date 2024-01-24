@@ -75,6 +75,8 @@ namespace GGJFUK
             else
             {
                 GameManager.Instance.EndStage();
+
+                Destroy(this.gameObject);
             }
         }
 
@@ -87,7 +89,7 @@ namespace GGJFUK
             comedianState = ComedianState.Talk;
             SetAnimation();
 
-            GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.talkingAudio, 1f, true);
+            GameManager.Instance.audioManager.PlayLoopAudio(GameManager.Instance.audioManager.talkingAudio, 1f);
 
             //Invoke("StopTalking", 10.0f);
         }
