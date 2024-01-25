@@ -43,10 +43,10 @@ namespace GGJFUK
 
         void SpawnComedian()
         {
+            cameraManager.ResetPosition();
+
             Vector3 spawnPosition = new Vector3 (0.1f, -17.6f, -6.5f);
 
-            cameraManager.ChangePosition();
-            
             GameObject comedianObject = Instantiate(comedians[comedianIndex], spawnPosition, Quaternion.identity);
 
             comedian = comedianObject.GetComponent<Comedian>();
@@ -57,6 +57,8 @@ namespace GGJFUK
 
             rhythmGame.gameObject.SetActive(true);
             rhythmGame.StartCountdown();
+
+            cameraManager.RotationMode();
         }
 
         public void SetAudienceAnimation(int state)
@@ -151,7 +153,7 @@ namespace GGJFUK
 
                 rhythmGame.StopGame();
 
-
+                cameraManager.ResetPosition();
 
                 Invoke("GameOver", 2f);
             }
