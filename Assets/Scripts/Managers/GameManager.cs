@@ -22,6 +22,8 @@ namespace GGJFUK
 
         public RhythmGame rhythmGame;
 
+        public CameraManager cameraManager;
+
         public GameObject[] comedians;
 
         public GameObject[] audiences;
@@ -43,6 +45,8 @@ namespace GGJFUK
         {
             Vector3 spawnPosition = new Vector3 (0.1f, -17.6f, -6.5f);
 
+            cameraManager.ChangePosition();
+            
             GameObject comedianObject = Instantiate(comedians[comedianIndex], spawnPosition, Quaternion.identity);
 
             comedian = comedianObject.GetComponent<Comedian>();
@@ -83,6 +87,8 @@ namespace GGJFUK
 
         public void EndStage()
         {
+            cameraManager.ResetPosition();
+
             CloseGates();
 
             stage++;
