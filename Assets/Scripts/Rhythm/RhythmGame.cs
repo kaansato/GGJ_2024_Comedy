@@ -198,6 +198,13 @@ namespace GGJFUK
                     GameManager.Instance.laugh += laughForJoke;
                     GameManager.Instance.uIManager.UpdateLaughBar();
 
+                    // Add audience for every 3 correct
+                    GameManager.Instance.correctCount++;
+                    if(GameManager.Instance.correctCount % 3 == 0)
+                    {
+                        GameManager.Instance.audienceManager.SpawnNextAudience();
+                    }
+
                     if (GameManager.Instance.CheckLaugh()) return;
 
                     GameManager.Instance.audioManager.PlayAudio(GameManager.Instance.audioManager.correctAudio);
