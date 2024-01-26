@@ -3570,8 +3570,8 @@ Transform:
   m_LocalPosition: {x: 1.5737658, y: -14.698372, z: -3.2547193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1161283515}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &369712457
 MonoBehaviour:
@@ -3585,8 +3585,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac338f3fe705435da5aad544938cd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vcam1: {fileID: 0}
-  vcam2: {fileID: 0}
+  mainCamera: {fileID: 931380165}
+  cameras:
+  - {fileID: 931380165}
+  - {fileID: 21448537}
+  - {fileID: 303404054}
+  rotateMode: 0
 --- !u!1 &380646252 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8729620623055208420, guid: 1a6f33b86174bb14badc77432044e202, type: 3}
@@ -11128,7 +11132,7 @@ MonoBehaviour:
   uIManager: {fileID: 168793664}
   audioManager: {fileID: 1576771502}
   rhythmGame: {fileID: 1198351234}
-  cameraManager: {fileID: 0}
+  cameraManager: {fileID: 369712457}
   comedians:
   - {fileID: 3196064279070863270, guid: 2081948903dadbd4880078dc5451c1c8, type: 3}
   - {fileID: 1168437816736796363, guid: b71774aa9a3ca4846ae0aa956324531c, type: 3}
@@ -11163,6 +11167,7 @@ Transform:
   - {fileID: 168793663}
   - {fileID: 1576771501}
   - {fileID: 2098936418}
+  - {fileID: 369712456}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
