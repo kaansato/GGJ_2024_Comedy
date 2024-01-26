@@ -68,7 +68,7 @@ namespace GGJFUK
 
                 GameManager.Instance.audioManager.StopAll();
 
-                GameManager.Instance.SetAudienceAnimation(0);
+                GameManager.Instance.audienceManager.SetAudienceState(AudienceState.Idle);
 
                 Invoke("StartTalking", 0.5f);
             }

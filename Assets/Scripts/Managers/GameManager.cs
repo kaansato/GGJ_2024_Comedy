@@ -17,18 +17,22 @@ namespace GGJFUK
 
         public int stage = 0;
 
+        public int correctCount = 0;
+
         public UIManager uIManager;
         public AudioManager audioManager;
+        public AudienceManager audienceManager;
 
         public RhythmGame rhythmGame;
 
         public GameObject[] comedians;
 
-        public GameObject[] audiences;
+        //public GameObject[] audiences;
 
         public Gate[] gates;
 
-        Comedian comedian = null;
+        [HideInInspector]
+        public Comedian comedian = null;
 
         int comedianIndex = 0;
 
@@ -47,22 +51,12 @@ namespace GGJFUK
 
             comedian = comedianObject.GetComponent<Comedian>();
 
-            SetAudienceAnimation(1);
+            audienceManager.SetAudienceState(AudienceState.Clap);
 
             audioManager.PlayAudio(audioManager.applauseAudio);
 
             rhythmGame.gameObject.SetActive(true);
             rhythmGame.StartCountdown();
-        }
-
-        public void SetAudienceAnimation(int state)
-        {
-            foreach (GameObject o in audiences) 
-            {
-                Animator animator = o.GetComponent<Animator>();
-
-                animator.SetInteger("State", state);
-            }
         }
 
         public void OpenGates()
@@ -121,7 +115,8 @@ namespace GGJFUK
             audioManager.StopAll();
 
             audioManager.PlayAudio(audioManager.laughAudio);
-            SetAudienceAnimation(2);
+
+            audienceManager.SetAudienceState(AudienceState.Laugh);
 
             Invoke("StopLaugh", 3.0f);
         }
@@ -130,7 +125,7 @@ namespace GGJFUK
         {
             audioManager.StopAll();
 
-            SetAudienceAnimation(0);
+            audienceManager.SetAudienceState(AudienceState.Idle);
         }
 
         public void IncreaseMissCount()
@@ -144,8 +139,6 @@ namespace GGJFUK
                 Debug.Log("GAME OVER !");
 
                 rhythmGame.StopGame();
-
-
 
                 Invoke("GameOver", 2f);
             }

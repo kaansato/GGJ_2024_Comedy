@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 namespace GGJFUK
 {
-    
-
     public class UIManager : MonoBehaviour
     {
         public TextMeshProUGUI scoreText;
