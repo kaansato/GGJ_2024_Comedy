@@ -18,6 +18,22 @@ namespace GGJFUK
         public TextMeshProUGUI endScoreText;
         public TextMeshProUGUI bestScoreText;
 
+        public GameObject titleImage;
+        public GameObject startButton;
+
+        public void ShowGameScreen()
+        {
+            titleImage.SetActive(false);
+            startButton.SetActive(false);
+
+            scoreText.gameObject.SetActive(true);
+
+            foreach (GameObject ci in crossImages)
+            {
+                ci.transform.parent.gameObject.SetActive(true);
+            }
+        }
+
         public void UpdateScore()
         {
             scoreText.text = "SCORE: " + GameManager.Instance.score;

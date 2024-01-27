@@ -29,6 +29,9 @@ namespace GGJFUK
 
         public GameObject[] comedians;
 
+        public GameObject gameCamera;
+        public GameObject titleCamera;
+
         //public GameObject[] audiences;
 
         public Gate[] gates;
@@ -42,7 +45,19 @@ namespace GGJFUK
         {
             Time.timeScale = 1f;
 
-            Invoke("SpawnComedian", 3.0f);
+            //Invoke("SpawnComedian", 3.0f);
+        }
+
+        public void StartGame()
+        {
+            titleCamera.SetActive(false);
+            gameCamera.SetActive(true);
+
+            audioManager.PlayAudio(audioManager.laughAudio);
+
+            uIManager.ShowGameScreen();
+
+            Invoke("SpawnComedian", 2.0f);
         }
 
         void SpawnComedian()
@@ -187,6 +202,8 @@ namespace GGJFUK
                 StartLaugh();
 
                 comedian.StartWin();
+
+                cameraManager.ResetPosition();
 
                 return true;
             }

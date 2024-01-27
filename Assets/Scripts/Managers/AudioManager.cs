@@ -11,7 +11,7 @@ namespace GGJFUK
         public AudioClip gameAudio;
 
         public AudioClip applauseAudio;
-        public AudioClip talkingAudio;
+        //public AudioClip talkingAudio;
         public AudioClip laughAudio;
         public AudioClip tissAudio;
         public AudioClip dinkAudio;

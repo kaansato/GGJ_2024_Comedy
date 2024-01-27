@@ -22,6 +22,8 @@ namespace GGJFUK
     {
         public Animator animator;
 
+        public AudioClip talkingAudio;
+
         public ComedianState comedianState = ComedianState.Idle;
 
         Move move = null;
@@ -70,6 +72,8 @@ namespace GGJFUK
 
                 GameManager.Instance.audienceManager.SetAudienceState(AudienceState.Idle);
 
+                GameManager.Instance.audioManager.PlayLoopAudio(talkingAudio, 1f);
+
                 Invoke("StartTalking", 0.5f);
             }
             else
@@ -89,7 +93,7 @@ namespace GGJFUK
             comedianState = ComedianState.Talk;
             SetAnimation();
 
-            GameManager.Instance.audioManager.PlayLoopAudio(GameManager.Instance.audioManager.talkingAudio, 1f);
+            //GameManager.Instance.audioManager.PlayLoopAudio(talkingAudio, 1f);
 
             //Invoke("StopTalking", 10.0f);
         }

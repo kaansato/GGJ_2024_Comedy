@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6648770179454439075}
+  talkingAudio: {fileID: 8300000, guid: 2f0dec4b311f48149affa744ea63d031, type: 3}
   comedianState: 0
 --- !u!136 &1168437816736796404
 CapsuleCollider:

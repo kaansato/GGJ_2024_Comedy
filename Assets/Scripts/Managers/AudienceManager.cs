@@ -33,7 +33,7 @@ namespace GGJFUK
         {
             while(true)
             {
-                SpawnAudience(audiencePoints[audienceIndex].transform.position, audiencePoints[audienceIndex].transform.rotation);
+                SpawnAudience(audiencePoints[audienceIndex].transform.position, audiencePoints[audienceIndex].transform.rotation, true);
 
                 audienceIndex++;
 
@@ -44,9 +44,30 @@ namespace GGJFUK
             }
         }
 
-        Audience SpawnAudience(Vector3 spawnPosition, Quaternion spawnRotation)
+        Audience SpawnAudience(Vector3 spawnPosition, Quaternion spawnRotation, bool checkDuplicate = false)
         {
-            GameObject audienceObject = Instantiate(GetRandomAudience(), spawnPosition, spawnRotation);
+            GameObject randomAudience = GetRandomAudience();
+
+            if (checkDuplicate)
+            {
+                bool check = true;
+                while (check)
+                {
+                    check = false;
+
+                    foreach (Audience a in audienceList)
+                    {
+                        if(a.gameObject.name.Contains(randomAudience.name))
+                        {
+                            check = true;
+                            randomAudience = GetRandomAudience();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            GameObject audienceObject = Instantiate(randomAudience, spawnPosition, spawnRotation);
             audienceObject.transform.SetParent(audiencesParent);
 
             Audience audience = audienceObject.GetComponent<Audience>();
