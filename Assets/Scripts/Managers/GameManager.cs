@@ -142,6 +142,7 @@ namespace GGJFUK
             audioManager.StopAll();
 
             audioManager.PlayAudio(audioManager.laughAudio);
+            audioManager.PlayAudio(audioManager.resultGood, 2);
 
             audienceManager.SetAudienceState(AudienceState.Laugh);
 
@@ -169,6 +170,8 @@ namespace GGJFUK
                 rhythmGame.gameObject.SetActive(false);
 
                 cameraManager.ResetPosition();
+
+                audioManager.PlayAudio(audioManager.resultNotGood, 2);
 
                 Invoke("GameOver", 2f);
             }
