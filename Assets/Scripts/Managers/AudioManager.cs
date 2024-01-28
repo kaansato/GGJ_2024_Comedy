@@ -23,6 +23,10 @@ namespace GGJFUK
         public AudioClip startAudio;
         public AudioClip clearAudio;
 
+        public AudioClip resultGood;
+
+        public AudioClip resultNotGood;
+
         void Awake()
         {
             audioSources = new AudioSource[6];
