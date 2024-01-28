@@ -20,8 +20,9 @@ namespace GGJFUK
     public enum JokeType
     {
         Perfect,
+        Great,
         Good,
-        Ok,
+        Bad,
         Length
     }
 
@@ -142,6 +143,7 @@ namespace GGJFUK
 
             /*
             if (rect1Rect.Overlaps(rect2Rect))
+            //if (distance < rhythmGame.targetRectTransform.sizeDelta.x) ;
             {
                 Debug.Log("distance: " + distance + " " + rhythmGame.targetRectTransform.sizeDelta.x + " " + lastScale);
             }
@@ -169,11 +171,15 @@ namespace GGJFUK
             }
             else if (distance <= 30)
             {
+                return JokeType.Great;
+            }
+            else if (distance <= 80)
+            {
                 return JokeType.Good;
             }
             else
             {
-                return JokeType.Ok;
+                return JokeType.Bad;
             }
         }
 

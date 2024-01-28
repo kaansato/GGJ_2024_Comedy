@@ -30,7 +30,11 @@ namespace GGJFUK
         public TextMeshProUGUI countdownText;
         int countdownValue = 3;
 
-        public TextMeshProUGUI infoText;
+        //public TextMeshProUGUI infoText;
+
+        public GameObject infoImage;
+        public GameObject[] infoImages;
+
         float hideDelay = 1f;
         float timer;
 
@@ -98,18 +102,31 @@ namespace GGJFUK
             drumNotes.Clear();
         }
 
-        public void ShowInfo(string info)
+        public void ShowInfo(JokeType jokeType)
         {
-            infoText.text = info;
-            DisplayItemHelper.SetAttention(infoText.gameObject, true);
+            //infoText.text = info;
+
+            infoImage.SetActive(true);
+
+            DisplayItemHelper.SetAttention(infoImage, true);
+
+            foreach (GameObject g in infoImages)
+            {
+                g.SetActive(false);
+            }
+
+            infoImages[(int)jokeType].SetActive(true);
 
             timer = 0;
         }
 
         void HideInfo()
         {
-            infoText.text = "";
-            DisplayItemHelper.SetAttention(infoText.gameObject, false);
+            //infoText.text = "";
+
+            infoImage.SetActive(false);
+
+            DisplayItemHelper.SetAttention(infoImage, false);
         }
 
         IEnumerator SpawnNotes()
@@ -136,6 +153,8 @@ namespace GGJFUK
                 DrumNote drumNote = noteObject.GetComponent<DrumNote>();
                 drumNote.InitNote(this);
                 drumNotes.Add(drumNote);
+
+                //break;
             }
         }
 
@@ -143,7 +162,7 @@ namespace GGJFUK
         {
             CheckNotes();
 
-            if (infoText.text.Length > 0)
+            if (infoImage.activeSelf)
             {
                 timer += Time.deltaTime;
 
@@ -173,23 +192,27 @@ namespace GGJFUK
                     int pointForJoke = 100;
                     int laughForJoke = 20;
 
-                    if(jokeType == JokeType.Perfect)
+                    ShowInfo(jokeType);
+
+                    if (jokeType == JokeType.Perfect)
                     {
-                        ShowInfo("PERFECT");
                         pointForJoke = 100;
                         laughForJoke = 20;
                     }
-                    else if (jokeType == JokeType.Good)
+                    else if (jokeType == JokeType.Great)
                     {
-                        ShowInfo("GOOD");
                         pointForJoke = 80;
                         laughForJoke = 18;
                     }
-                    else if (jokeType == JokeType.Ok)
+                    else if (jokeType == JokeType.Good)
                     {
-                        ShowInfo("OK");
                         pointForJoke = 60;
                         laughForJoke = 16;
+                    }
+                    else if (jokeType == JokeType.Bad)
+                    {
+                        pointForJoke = 40;
+                        laughForJoke = 14;
                     }
 
                     GameManager.Instance.score += pointForJoke;

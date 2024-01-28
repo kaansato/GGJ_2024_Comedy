@@ -20,11 +20,13 @@ namespace GGJFUK
 
         public GameObject titleImage;
         public GameObject startButton;
+        public GameObject ggjText;
 
         public void ShowGameScreen()
         {
             titleImage.SetActive(false);
             startButton.SetActive(false);
+            ggjText.SetActive(false);
 
             scoreText.gameObject.SetActive(true);
 
@@ -79,7 +81,7 @@ namespace GGJFUK
 
             endScoreText.text = "SCORE: " + score;
 
-            int bestScore = PlayerPrefs.GetInt("BEST_SCORE", 0);
+            int bestScore = PlayerPrefs.GetInt("BEST_SCORE_2", 0);
 
             Debug.Log("GAME OVER: " + score + " " + bestScore);
 
@@ -87,7 +89,7 @@ namespace GGJFUK
             {
                 bestScoreText.text = "BEST SCORE !";
 
-                PlayerPrefs.SetInt("BEST_SCORE", score);
+                PlayerPrefs.SetInt("BEST_SCORE_2", score);
                 PlayerPrefs.Save();
             }
             else

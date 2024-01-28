@@ -8,6 +8,7 @@ namespace GGJFUK
     {
         AudioSource[] audioSources;
 
+        public AudioClip titleAudio;
         public AudioClip gameAudio;
 
         public AudioClip applauseAudio;
@@ -19,6 +20,8 @@ namespace GGJFUK
         public AudioClip correctAudio;
         public AudioClip missAudio;
         public AudioClip gameOverAudio;
+        public AudioClip startAudio;
+        public AudioClip clearAudio;
 
         void Awake()
         {
@@ -43,7 +46,7 @@ namespace GGJFUK
 
         void Start()
         {
-            PlayMusic(gameAudio, 0.4f);
+            PlayMusic(titleAudio, 0.5f);
         }
 
         public void PlayAudio(AudioClip audioClip, float volume = 1.0f)

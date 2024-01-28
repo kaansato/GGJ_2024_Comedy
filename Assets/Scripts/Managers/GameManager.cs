@@ -53,7 +53,9 @@ namespace GGJFUK
             titleCamera.SetActive(false);
             gameCamera.SetActive(true);
 
-            audioManager.PlayAudio(audioManager.laughAudio);
+            audioManager.PlayAudio(audioManager.startAudio);
+
+            audioManager.PlayMusic(audioManager.gameAudio, 0.2f);
 
             uIManager.ShowGameScreen();
 
@@ -98,6 +100,8 @@ namespace GGJFUK
 
         public void EndStage()
         {
+            audioManager.PlayAudio(audioManager.clearAudio);
+
             cameraManager.ResetPosition();
 
             CloseGates();
@@ -162,6 +166,7 @@ namespace GGJFUK
                 Debug.Log("GAME OVER !");
 
                 rhythmGame.StopGame();
+                rhythmGame.gameObject.SetActive(false);
 
                 cameraManager.ResetPosition();
 
@@ -177,7 +182,7 @@ namespace GGJFUK
 
             audioManager.StopMusic();
 
-            audioManager.PlayAudio(audioManager.gameOverAudio);
+            audioManager.PlayLoopAudio(audioManager.gameOverAudio, 0.5f);
 
             GameManager.Instance.uIManager.ShowGameOver();
         }
